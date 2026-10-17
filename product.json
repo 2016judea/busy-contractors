@@ -1,0 +1,10 @@
+{
+ "slug": "busy-contractors",
+ "name": "Busy Contractors",
+ "price_usd": 5,
+ "title": "Busy Contractors",
+ "desc": "The Minneapolis contractors with the most open jobs right now, every job address, and their licence phone and email.",
+ "fonts": "family=Archivo+Narrow:wght@600;700&family=Archivo:wght@400;500;600",
+ "light": "--bg:#f5f4f0;--panel:#eae8e1;--ink:#1a1a17;--ink2:#3a3934;--muted:#6b6a62;--rule:#d6d4cb;--accent:#1f5f3f;--onaccent:#f5f4f0;--hot:#c8361b;--c2:#d29a12;--mid:#8f8d84;--ghost:#cbc9bf;--tagbg:#e3e1d9;--tagfg:#47463f;--hotbg:#f4d8cf;--hotfg:#902410;--display:\"Archivo Narrow\",\"Arial Narrow\",sans-serif;--body:\"Archivo\",system-ui,sans-serif;--h1w:700;",
+ "dark": "--bg:#141412;--panel:#1d1d1a;--ink:#ecebe5;--ink2:#c8c6bd;--muted:#959389;--rule:#31302b;--accent:#6fcf9a;--onaccent:#141412;--hot:#f07a5e;--c2:#ecc25a;--mid:#77756c;--ghost:#35342f;--tagbg:#26251f;--tagfg:#bbb9ad;--hotbg:#45211a;--hotfg:#f7ae9c;"
+}
