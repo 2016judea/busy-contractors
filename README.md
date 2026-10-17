@@ -44,7 +44,10 @@ hauls for them today. Minneapolis only.
 Same as unit-turns-mpls and opening-cleans: free slice in `site/`, every row in
 `private/bundle/full.json.gz` uploaded as `api/_full/`, read only by `/api/data` (401
 without a password, 402 unpaid). Stripe embedded Checkout at $5 mints the password; the
-webhook emails it (Mailgun). `python3 scripts/fulfil.py <session_id>` reprints one;
+webhook emails it (Mailgun). This project has no Stripe endpoint of its own (the account
+is capped at 16): unit-turns-mpls relays its `checkout.session.completed` events here
+(`WEBHOOK_FORWARD`), signed with that endpoint's secret. Every session also carries
+`metadata.handler_url` for the shared router in `~/Desktop/stripe-router`. `python3 scripts/fulfil.py <session_id>` reprints one;
 `--comp "<label>"` issues a free copy. Analytics: Vercel Web Analytics + PostHog.
 
 ## Run it
