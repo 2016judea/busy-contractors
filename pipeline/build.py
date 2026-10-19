@@ -10,11 +10,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "kit"))
-from publish import publish  # noqa: E402
+from publish import esc, publish  # noqa: E402
 
 C = ROOT / "pipeline/cache"
 PRODUCT = json.loads((ROOT / "product.json").read_text())
-TODAY = dt.date.today()
+# The page says "pulled <date>": the day pull.py wrote the cache, not the day this script ran.
+TODAY = dt.date.fromtimestamp((C / "permits.json").stat().st_mtime)
 MIN_JOBS = 2
 D = lambda x: dt.datetime.fromtimestamp(x / 1000, dt.timezone.utc).date() if x else None
 BIZ = re.compile(r"\b(INC|LLC|L\.L\.C|CORP|CORPORATION|CO|COMPANY|CONST|CONSTRUCTION|BUILD|BUILDERS|BUILDING|HOMES|REMODEL|REMODELING|DESIGN|GROUP|"
@@ -98,7 +99,7 @@ for k, js in jobs.items():
     if lic: matched += 1
     office = ad or app_addr.get(k, "")
     hoods = collections.Counter(j["hood"] for j in js if j["hood"])
-    contact = " · ".join(x for x in [f'<a href="tel:{p}">{p}</a>' if p else "", f'<a href="mailto:{e}">{e}</a>' if e else "", office] if x)
+    contact = " · ".join(x for x in [f'<a href="tel:{p}">{p}</a>' if p else "", f'<a href="mailto:{esc(e)}">{esc(e)}</a>' if e else "", esc(office)] if x)
     items.append({
         "id": k[:60], "g": g, "t": name, "tag": f"{len(js)} open jobs", "hot": len(js) >= 10,
         "w": ", ".join(f"{v} {c.lower()}" for c, v in mix.most_common()),
@@ -106,7 +107,7 @@ for k, js in jobs.items():
               f"{sum(j['stage'] == 'Final inspection' for j in js)} at final inspection" if any(j['stage'] == 'Final inspection' for j in js) else ""],
         "lat": js[0]["lat"], "lon": js[0]["lon"],
         "k": {"jobs": -len(js), "newest": -int(js[0]["issued"].strftime("%Y%m%d")), "name": name.lower(), "tear": -(mix["Teardown"] + mix["New build or addition"])},
-        "c": (contact + (f" · MN licence {lic}" if lic else "")) or "No phone on file; the permit gives no address",
+        "c": (contact + (f" · MN licence {esc(lic)}" if lic else "")) or "No phone on file; the permit gives no address",
         "rows_label": f"All {len(js)} job addresses",
         "rows": [{"a": j["addr"], "m": f"{j['cat']} · {j['stage']} · permit {j['issued']:%b %-d} · {j['what'][:80]}", "lat": j["lat"], "lon": j["lon"]} for j in js],
         "csv": [[name, p, e, office, j["addr"], j["hood"], j["cat"], j["stage"], j["issued"].isoformat(), j["what"], j["fee"], j["permit"]] for j in js],
