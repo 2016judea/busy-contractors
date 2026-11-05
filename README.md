@@ -47,7 +47,7 @@ without a password, 402 unpaid). Stripe embedded Checkout at $5 mints the passwo
 webhook emails it (Mailgun). This project has no Stripe endpoint of its own (the account
 is capped at 16): unit-turns-mpls relays its `checkout.session.completed` events here
 (`WEBHOOK_FORWARD`), signed with that endpoint's secret. Every session also carries
-`metadata.handler_url` for the shared router in `~/Desktop/stripe-router`. `python3 scripts/fulfil.py <session_id>` reprints one;
+`metadata.handler_url` for the shared router in `~/Desktop/workspace/stripe-router`. `python3 scripts/fulfil.py <session_id>` reprints one;
 `--comp "<label>"` issues a free copy. Analytics: Vercel Web Analytics + PostHog.
 
 ## Run it
